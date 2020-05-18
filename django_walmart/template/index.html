@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <title>Alpha Boys</title>
+  <style>
+    body {
+      background-color: #E4E9FD;
+      background-image: -webkit-linear-gradient(70deg, #A683E3 50%, #E4E9FD 50%);
+      min-height: 800px;
+      font-family: 'helvetica neue';
+    }
+    #h1 {
+      color: #fff;
+      padding: 10px;
+    }
+    #date{
+      color: #fff;
+    }
+    #heading {
+      background-color: #A683E3;
+      text-align: center;
+    }
+    p {
+      margin: 0;
+      padding: 20px;
+      font-size: 20px;
+      font-weight: 200;
+      color: #00204a;
+    }
+    footer {
+      text-align: center;
+    }
+  </style>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body>
+  <nav class="navbar" id="heading">
+    <span class="h1" id="h1">Alpha Boys</span>
+    <span class="mr-sm-2" id="date">Last updated:{{ last_updated }}</span>
+  </nav>
+  <br>  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <center>
+    <iframe width="1100" height="650" allowtransparency="true"
+    src="https://app.powerbi.com/view?r=eyJrIjoiYzgxMWI0M2MtZjM0ZS00ODVlLWIxNGMtOTY2YmM0ZjE2MjBiIiwidCI6IjRjYzQ5Mjk3LTliOWUtNDY4YS1hYjA3LTk5Nzk2ZjQwNmUyZSJ9"
+    frameborder="0" allowFullScreen="true"></iframe>
+  </center>
+</body>
+<footer>
+  <p>&copy; 2020 Alpha Boys</p>
+</footer>
+</html>
