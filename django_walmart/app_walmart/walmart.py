@@ -29,7 +29,7 @@ class walmart:
                         'SF':'San Francisco','San Francisco':'San Francisco',
                         'Bengaluru':'Bangalore','Bangalore':'Bangalore',
                         'Chicago':'Chicago','Mumbai':'Mumbai','London':'London'}
-    phone_dictionary = {'Samsung':'Samsung''samsung',:'Samsung','iPhone':'iPhone','iphone':'iPhone','OnePlus':'OnePlus'}
+    phone_dictionary = {'Samsung':'Samsung','samsung':'Samsung','iPhone':'iPhone','iphone':'iPhone','OnePlus':'OnePlus'}
     locations = ['New York','NYC','San Francisco','SF','Chicago','Bangalore','Bengaluru','Mumbai','London','NEW YORK']
     REST_API_URL = 'https://api.powerbi.com/beta/e81af6ba-a66f-4cab-90f9-9225862c5cf8/datasets/51a56115-ac32-437a-8f2c-3ed1fa1dc37a/rows?key=24THP%2FqLUg2EWnDtFiTUr8GTjjPOU%2FxjT%2BnkTt9%2FHMlkMG%2B5BhWe0pYVfsJcE8gVNitZ3C2Fp1akv3LR7hLVNQ%3D%3D'
     tokenizer = RegexpTokenizer(r'\w+')
@@ -94,10 +94,10 @@ class walmart:
         if not path.exists(file):
             self.df_make()
         scheduler = BackgroundScheduler()
-        scheduler.add_job(self.data_collect, 'cron', minute='00,10,20,30,40,50')
+        scheduler.add_job(self.data_collect, 'cron', minute='02,12,22,32,42,52')
         scheduler.add_job(self.sentiment_analysis, 'cron', hour='16', minute='32')
         scheduler.add_job(self.df_make, 'cron', hour='0', minute='01')
-        scheduler.add_job(self.iter_control_chnge, 'cron', minute='08,18,28,38,48,58')
+        scheduler.add_job(self.iter_control_chnge, 'cron', minute='09,19,29,39,49,59')
         scheduler.start()
 
     def sentiment_analysis(self):
