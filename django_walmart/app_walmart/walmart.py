@@ -95,7 +95,7 @@ class walmart:
             self.df_make()
         scheduler = BackgroundScheduler()
         scheduler.add_job(self.data_collect, 'cron', minute='00,10,20,30,40,50')
-        scheduler.add_job(self.sentiment_analysis, 'cron', hour='15', minute='02')
+        scheduler.add_job(self.sentiment_analysis, 'cron', hour='15', minute='07')
         scheduler.add_job(self.df_make, 'cron', hour='0', minute='01')
         scheduler.add_job(self.iter_control_chnge, 'cron', minute='08,18,28,38,48,58')
         scheduler.start()
