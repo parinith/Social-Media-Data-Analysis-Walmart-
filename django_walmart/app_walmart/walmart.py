@@ -94,10 +94,10 @@ class walmart:
         if not path.exists(file):
             self.df_make()
         scheduler = BackgroundScheduler()
-        scheduler.add_job(self.data_collect, 'cron', minute='02,12,22,32,42,52')
-        scheduler.add_job(self.sentiment_analysis, 'cron', hour='16', minute='42')
+        scheduler.add_job(self.data_collect, 'cron', minute='07,17,27,37,47,57')
+        scheduler.add_job(self.sentiment_analysis, 'cron', hour='17', minute='25')
         scheduler.add_job(self.df_make, 'cron', hour='0', minute='01')
-        scheduler.add_job(self.iter_control_change, 'cron', minute='09,19,29,39,49,59')
+        scheduler.add_job(self.iter_control_change, 'cron', minute='03,13,23,33,43,53')
         scheduler.start()
 
     def sentiment_analysis(self):
@@ -134,7 +134,7 @@ class walmart:
         t = time.strftime(" %H:%M:%S,%m/%d/%Y", time.localtime())
         requests.post(self.REST_API_URL, data_json)
         with open("details.json", "w") as outfile:
-            json.dump({"last_updated":t,"details":data_json}, outfile)
+            json.dump({"last_updated":t}, outfile)
         print('Sent data to BI API at',t)
 
     def df_make(self):
