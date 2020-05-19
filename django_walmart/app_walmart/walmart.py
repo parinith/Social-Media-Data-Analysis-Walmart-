@@ -96,6 +96,11 @@ class walmart:
                             i = i + 1
             except tweepy.TweepError as e:
                 print(e.reason)
+        df.drop_duplicates(subset=['Tweets', 'location', 'phone'])
+        df.to_csv(path, index = False)
+        print('Dataset',name,'updated to',i,'tweets')
+        print('Data collection ended')
+        
 """
                         cur_m = int(time.strftime("%M", time.localtime()))
                         cur_h = int(time.strftime("%H", time.localtime()))
@@ -109,10 +114,7 @@ class walmart:
                 continue
             break
 """
-        df.drop_duplicates(subset=['Tweets', 'location', 'phone'])
-        df.to_csv(path, index = False)
-        print('Dataset',name,'updated to',i,'tweets')
-        print('Data collection ended')
+        
     
     def limit_handle(self,cursor):
         while True:
