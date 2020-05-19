@@ -36,7 +36,7 @@ class walmart:
     pri = [1,2,3, 1,2,3, 1,2,3, 1,2,3, 1,2,3, 1,2,3]
     d = {'Bangalore':'India','Mumbai':'India','New York':'US','Chicago':'US','San Francisco':'US','London':'UK'}
     run_data_collect_for_minutes = 8
-    """
+    
     def data_collect(self):
         start_time = int(time.strftime("%M", time.localtime()))
         if start_time >= 30:
@@ -51,69 +51,27 @@ class walmart:
             i =  len(df)+1
         print('Data collection started')
         for value in self.keywords:
-            for tweet in self.limit_handle(tweepy.Cursor(self.api.search, value,result_type="recent",include_entities=True, lang='en').items(5000)):
+            for tweet in self.limit_handle(tweepy.Cursor(self.api.search, value,result_type="recent",include_entities=True, lang='en').items(50)):
                 try :
                     for j in self.locations:
                         if re.search(j,tweet.user.location):
                             df.loc[i] = [tweet.text, tweet.favorite_count, tweet.retweet_count, self.place_dictionary.get(j), value]
+                            print(df[i])
                             i = i + 1                    
                     sleep(5)
                 except tweepy.TweepError as e:
                     print(e.reason)
                 except StopIteration:
                     break
+            """
             current_time = int(time.strftime("%M", time.localtime()))
             if current_time >= end_time:
                 break
+            """
         df.drop_duplicates(subset=['Tweets', 'location', 'phone'])
         df.to_csv(path, index = False)
         print('Dataset',name,'updated to',i,'tweets')
         print('Data collection ended')
-    """
-    
-    def data_collect(self):
-        start_m = int(time.strftime("%M", time.localtime()))
-        start_h = end_h = int(time.strftime("%H", time.localtime()))
-        end_m = start_m + self.run_data_collect_for_minutes
-        if end_m > 60:
-            end_m = end_m % 60
-            end_h = (end_h + 1)%24
-        name = str(date.today()) + '.csv'
-        path = os.path.join('app_walmart/datasets/',name)
-        df = pd.read_csv(path)
-        if df.empty:
-            i = 0
-        else:
-            i =  len(df)+1
-        print('Data collection started')
-        for value in self.keywords:
-            try:
-                for tweet in self.limit_handle(tweepy.Cursor(self.api.search, value,result_type="recent",include_entities=True, lang='en').items(50)):
-                    time.sleep(50)
-                    for j in self.locations:
-                        if re.search(j,tweet.user.location):
-                            df.loc[i] = [tweet.text, tweet.favorite_count, tweet.retweet_count, self.place_dictionary.get(j), value]
-                            print(df[i])
-                            i = i + 1
-            except tweepy.TweepError as e:
-                print(e.reason)
-        df.drop_duplicates(subset=['Tweets', 'location', 'phone'])
-        df.to_csv(path, index = False)
-        print('Dataset',name,'updated to',i,'tweets')
-        print('Data collection ended')        
-        """
-                        cur_m = int(time.strftime("%M", time.localtime()))
-                        cur_h = int(time.strftime("%H", time.localtime()))
-                        if cur_m>=end_m and cur_h>=end_h:
-                            break
-                    else:
-                        continue
-                    break
-            
-            else:
-                continue
-            break
-        """
         
     def limit_handle(self,cursor):
         while True:
