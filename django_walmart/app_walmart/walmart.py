@@ -33,7 +33,6 @@ class walmart:
     REST_API_URL = 'https://api.powerbi.com/beta/e81af6ba-a66f-4cab-90f9-9225862c5cf8/datasets/51a56115-ac32-437a-8f2c-3ed1fa1dc37a/rows?key=24THP%2FqLUg2EWnDtFiTUr8GTjjPOU%2FxjT%2BnkTt9%2FHMlkMG%2B5BhWe0pYVfsJcE8gVNitZ3C2Fp1akv3LR7hLVNQ%3D%3D'
     tokenizer = RegexpTokenizer(r'\w+')
     sia = SentimentIntensityAnalyzer()
-    pri = [1,2,3, 1,2,3, 1,2,3, 1,2,3, 1,2,3, 1,2,3]
     d = {'Bangalore':'India','Mumbai':'India','New York':'US','Chicago':'US','San Francisco':'US','London':'UK'}
     run_data_collect_for_minutes = 8
     iter_control = False
@@ -76,7 +75,7 @@ class walmart:
             print(e.reason)
         except:
             pass
-        df.drop_duplicates(subset=['Tweets', 'location', 'company'])
+        df.drop_duplicates(subset=['Tweets', 'location', 'phone'])
         df.to_csv(path, index = False)
         print('Dataset',name,'updated to',i,'tweets')
         print('Data collection ended')
@@ -95,7 +94,7 @@ class walmart:
             self.df_make()
         scheduler = BackgroundScheduler()
         scheduler.add_job(self.data_collect, 'cron', minute='00,10,20,30,40,50')
-        scheduler.add_job(self.sentiment_analysis, 'cron', hour='15', minute='07')
+        scheduler.add_job(self.sentiment_analysis, 'cron', hour='15', minute='55')
         scheduler.add_job(self.df_make, 'cron', hour='0', minute='01')
         scheduler.add_job(self.iter_control_chnge, 'cron', minute='08,18,28,38,48,58')
         scheduler.start()
@@ -120,14 +119,23 @@ class walmart:
         sol = data[['location','company','Tweets','rt_count']].groupby(['location','company',]).agg(['sum','count'])
         sol = sol[[('Tweets','count'),('rt_count','sum')]].sort_values(by=['location',('Tweets','count'),('rt_count','sum')],ascending=False)
         sol = sol.reset_index(level=['location','company'])
-        df = np.column_stack((sol['location'], sol['company'], sol[('Tweets','count')], sol[('rt_count','sum')], self.pri))
-        df = pd.DataFrame(df, columns=['Location', 'Phone', 'Tweets', 'Retweets', 'Priority'])
+        df = np.column_stack((sol['location'], sol['company'], sol[('Tweets','count')], sol[('rt_count','sum')]))
+        df = pd.DataFrame(df, columns=['Location', 'Phone', 'Tweets', 'Retweets'])
+        pri = self.pri_calc(df['Location'].nunique(),df['Phone'].nunique())
         country = []
         for i in df['Location']:
             country.append(self.d.get(i))
         df['Country'] = country
+        df['Priority'] = pri
         data_json = bytes(df.to_json(orient='records'), encoding='utf-8')
         self.to_bi_api(data_json)
+
+    def pri_calc(self,a,b):
+        pri = []
+        for i in range(a):
+            for j in range(b):
+                pri.append(j+1)
+        return pri
 
     def to_bi_api(self,data_json):
         t = time.strftime(" %H:%M:%S,%m/%d/%Y", time.localtime())
@@ -139,5 +147,5 @@ class walmart:
     def df_make(self):
         name = str(date.today()) + '.csv'
         path = os.path.join('app_walmart/datasets/',name)
-        df = pd.DataFrame(columns = ['Tweets', 'fav_count', 'rt_count', 'location', 'company'])
+        df = pd.DataFrame(columns = ['Tweets', 'fav_count', 'rt_count', 'location', 'phone'])
         df.to_csv(path, index=False)
