@@ -88,12 +88,15 @@ class walmart:
         print('Data collection started')
         for value in self.keywords:
             try:
-                for tweet in self.limit_handle(tweepy.Cursor(self.api.search, value,result_type="recent",include_entities=True, lang='en').items(500)):
+                for tweet in self.limit_handle(tweepy.Cursor(self.api.search, value,result_type="recent",include_entities=True, lang='en').items(50)):
                     time.sleep(50)
                     for j in self.locations:
                         if re.search(j,tweet.user.location):
                             df.loc[i] = [tweet.text, tweet.favorite_count, tweet.retweet_count, self.place_dictionary.get(j), value]
                             i = i + 1
+            except tweepy.TweepError as e:
+                print(e.reason)
+"""
                         cur_m = int(time.strftime("%M", time.localtime()))
                         cur_h = int(time.strftime("%H", time.localtime()))
                         if cur_m>=end_m and cur_h>=end_h:
@@ -101,11 +104,11 @@ class walmart:
                     else:
                         continue
                     break
-            except tweepy.TweepError as e:
-                print(e.reason)
+            
             else:
                 continue
             break
+"""
         df.drop_duplicates(subset=['Tweets', 'location', 'phone'])
         df.to_csv(path, index = False)
         print('Dataset',name,'updated to',i,'tweets')
