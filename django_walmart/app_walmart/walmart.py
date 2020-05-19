@@ -76,7 +76,7 @@ class walmart:
             print(e.reason)
         except:
             pass
-        df.drop_duplicates(subset=['Tweets', 'location', 'phone'])
+        df.drop_duplicates(subset=['Tweets', 'location', 'company'])
         df.to_csv(path, index = False)
         print('Dataset',name,'updated to',i,'tweets')
         print('Data collection ended')
@@ -139,5 +139,5 @@ class walmart:
     def df_make(self):
         name = str(date.today()) + '.csv'
         path = os.path.join('app_walmart/datasets/',name)
-        df = pd.DataFrame(columns = ['Tweets', 'fav_count', 'rt_count', 'location', 'phone'])
+        df = pd.DataFrame(columns = ['Tweets', 'fav_count', 'rt_count', 'location', 'company'])
         df.to_csv(path, index=False)
