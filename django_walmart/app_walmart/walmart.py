@@ -93,6 +93,7 @@ class walmart:
                     for j in self.locations:
                         if re.search(j,tweet.user.location):
                             df.loc[i] = [tweet.text, tweet.favorite_count, tweet.retweet_count, self.place_dictionary.get(j), value]
+                            print(df[i])
                             i = i + 1
             except tweepy.TweepError as e:
                 print(e.reason)
