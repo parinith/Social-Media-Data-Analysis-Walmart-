@@ -6,6 +6,7 @@ from time import sleep
 import requests
 import re
 import os
+from os import path
 import json
 from datetime import date
 from datetime import timedelta
@@ -34,8 +35,8 @@ class walmart:
     sia = SentimentIntensityAnalyzer()
     pri = [1,2,3, 1,2,3, 1,2,3, 1,2,3, 1,2,3, 1,2,3]
     d = {'Bangalore':'India','Mumbai':'India','New York':'US','Chicago':'US','San Francisco':'US','London':'UK'}
-    run_data_collect_for_minutes = 25
-
+    run_data_collect_for_minutes = 8
+    """
     def data_collect(self):
         start_time = int(time.strftime("%M", time.localtime()))
         if start_time >= 30:
@@ -68,7 +69,41 @@ class walmart:
         df.to_csv(path, index = False)
         print('Dataset',name,'updated to',i,'tweets')
         print('Data collection ended')
-
+    """
+    
+    def data_collect(self):
+        start_time = int(time.strftime("%M", time.localtime()))
+        if start_time >= 30:
+            start_time = (start_time+30)%60
+        end_time = start_time + self.run_data_collect_for_minutes
+        name = str(date.today()) + '.csv'
+        path = os.path.join('app_walmart/datasets/',name)
+        df = pd.read_csv(path)
+        if df.empty:
+            i = 0
+        else:
+            i =  len(df)+1
+        print('Data collection started')
+        for value in self.keywords:
+            for tweet in self.limit_handle(tweepy.Cursor(self.api.search, value,result_type="recent",include_entities=True, lang='en').items(5000)):
+                for j in self.locations:
+                    if re.search(j,tweet.user.location):
+                        df.loc[i] = [tweet.text, tweet.favorite_count, tweet.retweet_count, self.place_dictionary.get(j), value]
+                        i = i + 1
+                    current_time = int(time.strftime("%M", time.localtime()))
+                    if current_time >= end_time:
+                        break
+                else:
+                    countinue
+                break
+            else:
+                countinue
+            break
+        df.drop_duplicates(subset=['Tweets', 'location', 'phone'])
+        df.to_csv(path, index = False)
+        print('Dataset',name,'updated to',i,'tweets')
+        print('Data collection ended')
+    
     def limit_handle(self,cursor):
         while True:
             try:
@@ -77,8 +112,12 @@ class walmart:
                 time.sleep(1000)
 
     def __init__(self):
+        name = str(date.today()) + '.csv'
+        file = os.path.join('app_walmart/datasets/',name)
+        if not path.exists(file):
+            self.df_make()
         scheduler = BackgroundScheduler()
-        scheduler.add_job(self.data_collect, 'cron', minute='02,32')
+        scheduler.add_job(self.data_collect, 'cron', minute='00,10,20,30,40,50')
         scheduler.add_job(self.sentiment_analysis, 'cron', hour='7', minute='15')
         scheduler.add_job(self.df_make, 'cron', hour='0')
         scheduler.start()
