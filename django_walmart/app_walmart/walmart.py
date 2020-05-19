@@ -127,16 +127,8 @@ class walmart:
         for i in df['Location']:
             country.append(self.d.get(i))
         df['Country'] = country
-        df['Priority'] = pri
         data_json = bytes(df.to_json(orient='records'), encoding='utf-8')
         self.to_bi_api(data_json)
-
-    def pri_calc(self,a,b):
-        pri = []
-        for i in range(a):
-            for j in range(b):
-                pri.append(j+1)
-        return pri
 
     def to_bi_api(self,data_json):
         t = time.strftime(" %H:%M:%S,%m/%d/%Y", time.localtime())
