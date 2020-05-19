@@ -74,7 +74,9 @@ class walmart:
     def data_collect(self):
         start_m = int(time.strftime("%M", time.localtime()))
         start_h = end_h = int(time.strftime("%H", time.localtime()))
-        if end_m = start_m + self.run_data_collect_for_minutes > 60:
+        end_m = start_m + self.run_data_collect_for_minutes
+        if end_m > 60:
+            end_m = end_m % 60
             end_h = (end_h + 1)%24
         name = str(date.today()) + '.csv'
         path = os.path.join('app_walmart/datasets/',name)
