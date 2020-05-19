@@ -94,10 +94,10 @@ class walmart:
         if not path.exists(file):
             self.df_make()
         scheduler = BackgroundScheduler()
-        scheduler.add_job(self.data_collect, 'cron', minute='07,17,27,37,47,57')
-        scheduler.add_job(self.sentiment_analysis, 'cron', hour='17', minute='25')
+        scheduler.add_job(self.data_collect, 'cron', minute='01,11,21,31,41,51')
+        scheduler.add_job(self.sentiment_analysis, 'cron', hour='2', minute='00')
         scheduler.add_job(self.df_make, 'cron', hour='0', minute='01')
-        scheduler.add_job(self.iter_control_change, 'cron', minute='03,13,23,33,43,53')
+        scheduler.add_job(self.iter_control_change, 'cron', minute='09,19,29,39,49,59')
         scheduler.start()
 
     def sentiment_analysis(self):
@@ -122,7 +122,6 @@ class walmart:
         sol = sol.reset_index(level=['location','company'])
         df = np.column_stack((sol['location'], sol['company'], sol[('Tweets','count')], sol[('rt_count','sum')]))
         df = pd.DataFrame(df, columns=['Location', 'Phone', 'Tweets', 'Retweets'])
-        pri = self.pri_calc(df['Location'].nunique(),df['Phone'].nunique())
         country = []
         for i in df['Location']:
             country.append(self.d.get(i))
@@ -131,7 +130,7 @@ class walmart:
         self.to_bi_api(data_json)
 
     def to_bi_api(self,data_json):
-        t = time.strftime(" %H:%M:%S,%m/%d/%Y", time.localtime())
+        t = time.strftime(" %H:%M:%S %m/%d/%Y", time.localtime())
         requests.post(self.REST_API_URL, data_json)
         with open("details.json", "w") as outfile:
             json.dump({"last_updated":t}, outfile)
