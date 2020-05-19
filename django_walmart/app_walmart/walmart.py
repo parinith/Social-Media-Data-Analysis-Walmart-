@@ -38,7 +38,7 @@ class walmart:
     run_data_collect_for_minutes = 8
     iter_control = False
 
-    def iter_control_chnge():
+    def iter_control_change(self):
         self.iter_control = True
 
     def data_collect(self):
@@ -95,7 +95,7 @@ class walmart:
             self.df_make()
         scheduler = BackgroundScheduler()
         scheduler.add_job(self.data_collect, 'cron', minute='02,12,22,32,42,52')
-        scheduler.add_job(self.sentiment_analysis, 'cron', hour='16', minute='32')
+        scheduler.add_job(self.sentiment_analysis, 'cron', hour='16', minute='42')
         scheduler.add_job(self.df_make, 'cron', hour='0', minute='01')
         scheduler.add_job(self.iter_control_chnge, 'cron', minute='09,19,29,39,49,59')
         scheduler.start()
