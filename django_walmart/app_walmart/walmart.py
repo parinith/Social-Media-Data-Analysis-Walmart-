@@ -93,6 +93,8 @@ class walmart:
                             df.loc[i] = [tweet.text, tweet.favorite_count, tweet.retweet_count, self.place_dictionary.get(j), value]
                             i = i + 1
                         current_time = int(time.strftime("%M", time.localtime()))
+                        if current_time >= 30:
+                            current_time = (start_time+30)%60
                         if current_time >= end_time:
                             break
                     else:
