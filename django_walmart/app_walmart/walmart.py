@@ -99,9 +99,8 @@ class walmart:
         df.drop_duplicates(subset=['Tweets', 'location', 'phone'])
         df.to_csv(path, index = False)
         print('Dataset',name,'updated to',i,'tweets')
-        print('Data collection ended')
-        
-"""
+        print('Data collection ended')        
+        """
                         cur_m = int(time.strftime("%M", time.localtime()))
                         cur_h = int(time.strftime("%H", time.localtime()))
                         if cur_m>=end_m and cur_h>=end_h:
@@ -113,9 +112,8 @@ class walmart:
             else:
                 continue
             break
-"""
+        """
         
-    
     def limit_handle(self,cursor):
         while True:
             try:
