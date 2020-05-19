@@ -72,10 +72,10 @@ class walmart:
     """
     
     def data_collect(self):
-        start_time = int(time.strftime("%M", time.localtime()))
-        if start_time >= 30:
-            start_time = (start_time+30)%60
-        end_time = start_time + self.run_data_collect_for_minutes
+        start_m = int(time.strftime("%M", time.localtime()))
+        start_h = end_h = int(time.strftime("%H", time.localtime()))
+        if end_m = start_m + self.run_data_collect_for_minutes > 60:
+            end_h = (end_h + 1)%24
         name = str(date.today()) + '.csv'
         path = os.path.join('app_walmart/datasets/',name)
         df = pd.read_csv(path)
@@ -92,10 +92,9 @@ class walmart:
                         if re.search(j,tweet.user.location):
                             df.loc[i] = [tweet.text, tweet.favorite_count, tweet.retweet_count, self.place_dictionary.get(j), value]
                             i = i + 1
-                        current_time = int(time.strftime("%M", time.localtime()))
-                        if current_time >= 30:
-                            current_time = (start_time+30)%60
-                        if current_time >= end_time:
+                        cur_m = int(time.strftime("%M", time.localtime()))
+                        cur_h = int(time.strftime("%H", time.localtime()))
+                        if cur_m>=end_m and cur_h>=end_h:
                             break
                     else:
                         continue
