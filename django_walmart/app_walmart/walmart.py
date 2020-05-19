@@ -52,13 +52,13 @@ class walmart:
         print('Data collection started')
         for value in self.keywords:
             for tweet in self.limit_handle(tweepy.Cursor(self.api.search, value,result_type="recent",include_entities=True, lang='en').items(50)):
+                sleep(5)
                 try :
                     for j in self.locations:
                         if re.search(j,tweet.user.location):
                             df.loc[i] = [tweet.text, tweet.favorite_count, tweet.retweet_count, self.place_dictionary.get(j), value]
-                            print(df[i])
+                            print(df.loc[i])
                             i = i + 1                    
-                    sleep(5)
                 except tweepy.TweepError as e:
                     print(e.reason)
                 except StopIteration:
