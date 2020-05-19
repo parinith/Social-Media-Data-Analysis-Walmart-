@@ -22,7 +22,7 @@ class walmart:
     access_token_secret = 'k8KjgYezMrZDNrTCi9nRNd3ENXDetHVGt1WWeLijM6r5t'
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
     auth.set_access_token(access_token, access_token_secret)
-    api = tweepy.API(auth)
+    api = tweepy.API(auth,wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
     user = api.me()
     keywords = ['Samsung','iPhone','OnePlus','samsung','iphone']
     place_dictionary = {'NYC':'New York','New York':'New York','NEW YORK':'New York',
@@ -86,7 +86,8 @@ class walmart:
         print('Data collection started')
         for value in self.keywords:
             try:
-                for tweet in self.limit_handle(tweepy.Cursor(self.api.search, value,result_type="recent",include_entities=True, lang='en').items(5000)):
+                for tweet in self.limit_handle(tweepy.Cursor(self.api.search, value,result_type="recent",include_entities=True, lang='en').items(500)):
+                    time.sleep(50)
                     for j in self.locations:
                         if re.search(j,tweet.user.location):
                             df.loc[i] = [tweet.text, tweet.favorite_count, tweet.retweet_count, self.place_dictionary.get(j), value]
