@@ -74,8 +74,8 @@ class walmart:
                 break
         except tweepy.TweepError as e:
             print(e.reason)
-        except StopIteration:
-            break
+        except:
+            pass
         df.drop_duplicates(subset=['Tweets', 'location', 'phone'])
         df.to_csv(path, index = False)
         print('Dataset',name,'updated to',i,'tweets')
