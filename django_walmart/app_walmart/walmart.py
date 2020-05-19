@@ -97,7 +97,7 @@ class walmart:
         scheduler.add_job(self.data_collect, 'cron', minute='02,12,22,32,42,52')
         scheduler.add_job(self.sentiment_analysis, 'cron', hour='16', minute='42')
         scheduler.add_job(self.df_make, 'cron', hour='0', minute='01')
-        scheduler.add_job(self.iter_control_chnge, 'cron', minute='09,19,29,39,49,59')
+        scheduler.add_job(self.iter_control_change, 'cron', minute='09,19,29,39,49,59')
         scheduler.start()
 
     def sentiment_analysis(self):
