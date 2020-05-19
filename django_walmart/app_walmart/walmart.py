@@ -55,15 +55,15 @@ class walmart:
                     for j in self.locations:
                         if re.search(j,tweet.user.location):
                             df.loc[i] = [tweet.text, tweet.favorite_count, tweet.retweet_count, self.place_dictionary.get(j), value]
-                            i = i + 1
-                    current_time = int(time.strftime("%M", time.localtime()))
-                    if current_time >= end_time:
-                        break
+                            i = i + 1                    
                     sleep(5)
                 except tweepy.TweepError as e:
                     print(e.reason)
                 except StopIteration:
                     break
+            current_time = int(time.strftime("%M", time.localtime()))
+            if current_time >= end_time:
+                break
         df.drop_duplicates(subset=['Tweets', 'location', 'phone'])
         df.to_csv(path, index = False)
         print('Dataset',name,'updated to',i,'tweets')
@@ -115,7 +115,7 @@ class walmart:
         t = time.strftime(" %H:%M:%S,%m/%d/%Y", time.localtime())
         #requests.post(self.REST_API_URL, data_json)
         with open("details.json", "w") as outfile:
-            json.dump({"last_updated":t}, outfile)
+            json.dump({"last_updated":t,"details":data_json}, outfile)
         print('Sent data to BI API at',t)
 
     def df_make(self):
