@@ -36,12 +36,13 @@ class walmart:
     pri = [1,2,3, 1,2,3, 1,2,3, 1,2,3, 1,2,3, 1,2,3]
     d = {'Bangalore':'India','Mumbai':'India','New York':'US','Chicago':'US','San Francisco':'US','London':'UK'}
     run_data_collect_for_minutes = 8
-    
+    iter_control = False
+
+    def iter_control_chnge():
+        self.iter_control = True
+
     def data_collect(self):
-        start_time = int(time.strftime("%M", time.localtime()))
-        if start_time >= 30:
-            start_time = (start_time+30)%60
-        end_time = start_time + self.run_data_collect_for_minutes
+        self.iter_control = False
         name = str(date.today()) + '.csv'
         path = os.path.join('app_walmart/datasets/',name)
         df = pd.read_csv(path)
@@ -50,29 +51,36 @@ class walmart:
         else:
             i =  len(df)+1
         print('Data collection started')
-        for value in self.keywords:
-            for tweet in self.limit_handle(tweepy.Cursor(self.api.search, value,result_type="recent",include_entities=True, lang='en').items(50)):
-                sleep(5)
-                try :
-                    for j in self.locations:
-                        if re.search(j,tweet.user.location):
-                            df.loc[i] = [tweet.text, tweet.favorite_count, tweet.retweet_count, self.place_dictionary.get(j), value]
-                            print(df.loc[i])
-                            i = i + 1                    
-                except tweepy.TweepError as e:
-                    print(e.reason)
-                except StopIteration:
+        try :
+            while True:
+                for value in self.keywords:
+                    for tweet in self.limit_handle(tweepy.Cursor(self.api.search, value,result_type="recent",include_entities=True, lang='en').items(20)):
+                        sleep(3)
+                        for j in self.locations:
+                            if re.search(j,tweet.user.location):
+                                df.loc[i] = [tweet.text, tweet.favorite_count, tweet.retweet_count, self.place_dictionary.get(j), value]
+                                print(df.loc[i])
+                                i = i + 1
+                            if self.iter_control == True:
+                                break
+                        else:
+                            continue
+                        break
+                    else:
+                        continue
                     break
-            """
-            current_time = int(time.strftime("%M", time.localtime()))
-            if current_time >= end_time:
+                else:
+                    continue
                 break
-            """
+        except tweepy.TweepError as e:
+            print(e.reason)
+        except StopIteration:
+            break
         df.drop_duplicates(subset=['Tweets', 'location', 'phone'])
         df.to_csv(path, index = False)
         print('Dataset',name,'updated to',i,'tweets')
         print('Data collection ended')
-        
+
     def limit_handle(self,cursor):
         while True:
             try:
@@ -87,12 +95,14 @@ class walmart:
             self.df_make()
         scheduler = BackgroundScheduler()
         scheduler.add_job(self.data_collect, 'cron', minute='00,10,20,30,40,50')
-        scheduler.add_job(self.sentiment_analysis, 'cron', hour='7', minute='15')
-        scheduler.add_job(self.df_make, 'cron', hour='0')
+        scheduler.add_job(self.sentiment_analysis, 'cron', hour='15', minute='02')
+        scheduler.add_job(self.df_make, 'cron', hour='0', minute='01')
+        scheduler.add_job(self.iter_control_chnge, 'cron', minute='08,18,28,38,48,58')
         scheduler.start()
 
     def sentiment_analysis(self):
-        name = str(date.today() - timedelta(days = 1))  + '.csv'
+        #name = str(date.today() - timedelta(days = 1))  + '.csv'
+        name = str(date.today()) + '.csv'
         path = os.path.join('app_walmart/datasets/',name)
         data = pd.read_csv(path)
         tweet_list = []
@@ -121,7 +131,7 @@ class walmart:
 
     def to_bi_api(self,data_json):
         t = time.strftime(" %H:%M:%S,%m/%d/%Y", time.localtime())
-        #requests.post(self.REST_API_URL, data_json)
+        requests.post(self.REST_API_URL, data_json)
         with open("details.json", "w") as outfile:
             json.dump({"last_updated":t,"details":data_json}, outfile)
         print('Sent data to BI API at',t)
