@@ -85,17 +85,20 @@ class walmart:
             i =  len(df)+1
         print('Data collection started')
         for value in self.keywords:
-            for tweet in self.limit_handle(tweepy.Cursor(self.api.search, value,result_type="recent",include_entities=True, lang='en').items(5000)):
-                for j in self.locations:
-                    if re.search(j,tweet.user.location):
-                        df.loc[i] = [tweet.text, tweet.favorite_count, tweet.retweet_count, self.place_dictionary.get(j), value]
-                        i = i + 1
-                    current_time = int(time.strftime("%M", time.localtime()))
-                    if current_time >= end_time:
-                        break
-                else:
-                    countinue
-                break
+            try:
+                for tweet in self.limit_handle(tweepy.Cursor(self.api.search, value,result_type="recent",include_entities=True, lang='en').items(5000)):
+                    for j in self.locations:
+                        if re.search(j,tweet.user.location):
+                            df.loc[i] = [tweet.text, tweet.favorite_count, tweet.retweet_count, self.place_dictionary.get(j), value]
+                            i = i + 1
+                        current_time = int(time.strftime("%M", time.localtime()))
+                        if current_time >= end_time:
+                            break
+                    else:
+                        countinue
+                    break
+            except tweepy.TweepError as e:
+                print(e.reason)
             else:
                 countinue
             break
