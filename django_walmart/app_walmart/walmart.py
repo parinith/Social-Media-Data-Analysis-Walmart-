@@ -96,12 +96,12 @@ class walmart:
                         if current_time >= end_time:
                             break
                     else:
-                        countinue
+                        continue
                     break
             except tweepy.TweepError as e:
                 print(e.reason)
             else:
-                countinue
+                continue
             break
         df.drop_duplicates(subset=['Tweets', 'location', 'phone'])
         df.to_csv(path, index = False)
