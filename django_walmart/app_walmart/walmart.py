@@ -16,10 +16,10 @@ from vaderSentiment.vaderSentiment import SentimentIntensityAnalyzer
 from apscheduler.schedulers.background import BackgroundScheduler
 
 class walmart:
-    consumer_key = '0PKb1w8mvYTvilvCkqlJu4wwk'
-    consumer_secret = 'LXfS4wLXVecTG2VYu8aUoE7l9ho14F36Re7mGkz1DThQ5H0YUH'
-    access_token = '1254760256267096064-ECkWaoNTQWLfVFbMXDfxn34TfWFSrS'
-    access_token_secret = 'k8KjgYezMrZDNrTCi9nRNd3ENXDetHVGt1WWeLijM6r5t'
+    consumer_key = '#'
+    consumer_secret = '#'
+    access_token = '#'
+    access_token_secret = '#'
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
     auth.set_access_token(access_token, access_token_secret)
     api = tweepy.API(auth,wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
