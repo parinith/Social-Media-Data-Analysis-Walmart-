@@ -6,13 +6,13 @@ This web app using Django contains an analytical dashboard prepared using Busine
 It Involves collecting data in real time using Twitter Api tweepy and also using a rest API it is provided to BI for analysis which will be updated every day.
 
 <h4>Work Flow of the Project:<h4>
-<p align ='center'>
+<p>
   <img src="https://github.com/parik1999/Walmart_Social_Analytics/blob/master/Images/1.PNG" width="500" height="300">
  </p>
   
   We had to Analyse Data of Mobile Companies Like <h5>Samsung , OnePlus, iPhone</h5> in different store locations. 
  <h4>Webpage Screenshot</h4>
 
-<p><img src="https://github.com/parik1999/Walmart_Social_Analytics/blob/master/Images/2.PNG"></p>
+<p><img src="https://github.com/parik1999/Walmart_Social_Analytics/blob/master/Images/2.PNG" width="500" height="300"></p>
 <h4>Our team Aplha Boys wear able to be one among top 15 contestents in the Walmart Hackthon</h4>
-<p><img src="https://github.com/parik1999/Walmart_Social_Analytics/blob/master/Images/3.png"></p>
+<p><img src="https://github.com/parik1999/Walmart_Social_Analytics/blob/master/Images/3.png" width="500" height="300"></p>
