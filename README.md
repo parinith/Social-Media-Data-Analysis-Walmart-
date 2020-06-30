@@ -1,4 +1,4 @@
-<h2>Social Media analysis for Walmart Hackthon<h2>
+<h2>Social Media analysis for Walmart Hackthon</h2>
 Its is a Django Web application this was a project for the Walmart hackathon and we were one of the top 15 participants in the whole country, although we couldn't make it to finals it was a great experience. 
 
 This web app using Django contains an analytical dashboard prepared using Business Intelligence about the trending mobile in 3 different countries at different store locations, and we wear able to deploy it in google cloud.
