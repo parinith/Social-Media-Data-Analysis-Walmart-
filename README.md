@@ -7,7 +7,7 @@ It Involves collecting data in real time using Twitter Api tweepy and also using
 
 <h4>Work Flow of the Project:<h4>
 <p align ='center'>
-  <img src="https://github.com/parik1999/Walmart_Social_Analytics/blob/master/Images/1.PNG" width="500" height="600">
+  <img src="https://github.com/parik1999/Walmart_Social_Analytics/blob/master/Images/1.PNG" width="500" height="300">
  </p>
   
   We had to Analyse Data of Mobile Companies Like <h5>Samsung , OnePlus, iPhone</h5> in different store locations. 
