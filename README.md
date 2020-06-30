@@ -5,9 +5,9 @@ This web app using Django contains an analytical dashboard prepared using Busine
 It Involves collecting data in real time using Twitter Api tweepy and also using a rest API it is provided to BI for analysis which will be updated every day.
 
 
-<p>
+<p align ='center'>
   <img src="https://github.com/parik1999/Walmart_Social_Analytics/blob/master/Images/1.PNG">
   <img src="https://github.com/parik1999/Walmart_Social_Analytics/blob/master/Images/2.PNG">
-  <img src="https://github.com/parik1999/Walmart_Social_Analytics/blob/master/Images/3.PNG">
-  
 </p>
+<p>
+  <img src="https://github.com/parik1999/Walmart_Social_Analytics/blob/master/Images/3.PNG"></p>
