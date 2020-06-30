@@ -10,4 +10,4 @@ It Involves collecting data in real time using Twitter Api tweepy and also using
   <img src="https://github.com/parik1999/Walmart_Social_Analytics/blob/master/Images/2.PNG">
 </p>
 <p>
-  <img src="https://github.com/parik1999/Walmart_Social_Analytics/blob/master/Images/3.PNG"></p>
+  <img src="https://github.com/parik1999/Walmart_Social_Analytics/blob/master/Images/3.png"></p>
