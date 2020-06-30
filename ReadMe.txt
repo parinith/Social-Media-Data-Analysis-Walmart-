@@ -6,5 +6,5 @@ It Involves collecting data in real time using Twitter Api tweepy and also using
 
 
 <p align="center">
-  <img src="screenshot.PNG" width="350" title="hover text">
+  <img src="https://github.com/parik1999/Walmart_Social_Analytics/blob/master/Images/1.PNG">
 </p>
